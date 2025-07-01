@@ -708,22 +708,24 @@
         });
 
 
-  function hidePoweredBy() {
-    const el = document.querySelector('.bpComposerPoweredBy');
-    if (el) {
-      el.style.display = 'none';
-      el.setAttribute('data-hidden', 'true');
+
+  function hideBotpressBrandingInIframe() {
+    const iframe = document.querySelector('iframe[src*="botpress"]'); // adapte le sélecteur si nécessaire
+
+    if (iframe) {
+      try {
+        const innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+        const branding = innerDoc.querySelector('.bpComposerPoweredBy');
+        if (branding) branding.style.display = 'none';
+      } catch (e) {
+        console.warn('Impossible d’accéder au contenu de l’iframe à cause de la politique de sécurité (cross-origin)');
+      }
     }
   }
 
-  const observer = new MutationObserver(() => {
-    hidePoweredBy();
-  });
+  // Essayer d'exécuter régulièrement au cas où Botpress réinjecte
+  const interval = setInterval(hideBotpressBrandingInIframe, 1000);
 
-  document.addEventListener('DOMContentLoaded', () => {
-    hidePoweredBy();
-    observer.observe(document.body, { childList: true, subtree: true });
-  });
 
     </script>
 </body>
