@@ -710,6 +710,21 @@
                 });
             });
         });
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const el = document.querySelector(".bpComposerPoweredBy");
+    if (el) el.remove(); // Supprime définitivement
+  });
+
+  // Si le bouton revient dynamiquement, observer le DOM
+  const observer = new MutationObserver(() => {
+    const el = document.querySelector(".bpComposerPoweredBy");
+    if (el) el.remove();
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+
     </script>
 </body>
 </html>
