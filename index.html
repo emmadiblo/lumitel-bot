@@ -8,10 +8,6 @@
     <script src="https://cdn.botpress.cloud/webchat/v2.4/inject.js"></script>
     <style>
 
-        .bpComposerPoweredBy {
-            display: none !important;
-        }
-   
         :root {
             --lumitel-blue: #0047AB;
             --lumitel-yellow: #FFD700;
@@ -712,18 +708,22 @@
         });
 
 
-  document.addEventListener("DOMContentLoaded", function () {
-    const el = document.querySelector(".bpComposerPoweredBy");
-    if (el) el.remove(); // Supprime définitivement
-  });
+  function hidePoweredBy() {
+    const el = document.querySelector('.bpComposerPoweredBy');
+    if (el) {
+      el.style.display = 'none';
+      el.setAttribute('data-hidden', 'true');
+    }
+  }
 
-  // Si le bouton revient dynamiquement, observer le DOM
   const observer = new MutationObserver(() => {
-    const el = document.querySelector(".bpComposerPoweredBy");
-    if (el) el.remove();
+    hidePoweredBy();
   });
 
-  observer.observe(document.body, { childList: true, subtree: true });
+  document.addEventListener('DOMContentLoaded', () => {
+    hidePoweredBy();
+    observer.observe(document.body, { childList: true, subtree: true });
+  });
 
     </script>
 </body>
